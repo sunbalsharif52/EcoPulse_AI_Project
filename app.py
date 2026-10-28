@@ -1,38 +1,41 @@
-import streamlit as str
+import streamlit as st
 import pandas as pd
 import os
 
-# Set up the Dashboard Page Title
-str.set_page_config(page_title="EcoPulse: Inflation Forecasting Dashboard", layout="wide")
+st.set_page_config(
+    page_title="EcoPulse: Inflation Forecasting Dashboard",
+    layout="wide"
+)
 
-# Dashboard Header
-str.title("📊 EcoPulse: Macroeconomic Inflation Forecasting Engine")
-str.markdown("### Developed by Sunbal Sharif | Professional Portfolio Project")
-str.write("---")
+st.title("EcoPulse: Macroeconomic Inflation Forecasting Engine")
+st.markdown("### Developed by Sunbal Sharif")
+st.divider()
 
-# Layout: Split into 2 columns (Left for Data Metrics, Right for Visual Chart)
-col1, col2 = str.columns([1, 2])
+col1, col2 = st.columns([1, 2])
 
 with col1:
-    str.subheader("📁 Project Data Engine Status")
+    st.subheader("Project Data Status")
+
     if os.path.exists("EcoPulse_Master_Dataset.csv"):
         df = pd.read_csv("EcoPulse_Master_Dataset.csv")
-        str.success("✅ Master Dataset Connected!")
-        str.metric(label="Total Records Analyzed", value=f"{len(df)} Months")
-        str.metric(label="Avg Crude Oil Price", value="$77.94 / Barrel")
-        
-        str.write("### Data Preview")
-        str.dataframe(df.head(10))
+
+        st.success("Master Dataset Connected")
+        st.metric("Total Records", f"{len(df):,}")
+
+        st.subheader("Data Preview")
+        st.dataframe(df.head(10), use_container_width=True)
+
     else:
-        str.error("❌ Master Dataset file not found in directory.")
+        st.error("Master Dataset file not found.")
 
 with col2:
-    str.subheader("📈 Statistical Analysis & Trend Visualization")
-    if os.path.exists("EcoPulse_Analysis_Chart.png"):
-        str.image("EcoPulse_Analysis_Chart.png", caption="Relationship Timeline: Crude Oil vs Inflation Index")
-    else:
-        str.warning("⚠️ Visual chart image not found. Please check your folder.")
+    st.subheader("Statistical Analysis and Trends")
 
-# Footer Section for Scholarship CV Value
-str.write("---")
-str.info("💡 **Portfolio Core Metrics:** This system utilizes OLS Linear Regression and ANOVA testing to evaluate global inflation impact based on raw FRED API energy metrics.")
+    if os.path.exists("EcoPulse_Analysis_Chart.png"):
+        st.image(
+            "EcoPulse_Analysis_Chart.png",
+            caption="Crude Oil Prices and Inflation Trends",
+            use_container_width=True
+        )
+    else:
+        st.warning("Analysis chart not found.")
